@@ -1,0 +1,68 @@
+create database ritheshchandra;
+use ritheshchandra;
+create table salespeople(
+snum int,
+sname varchar(255),
+city varchar(255),comm int,
+primary key(snum)
+);
+insert into salespeople
+values(1001,'peel','london',12),
+(1002,'serres','sanjose',13),
+(1004,'motika','london',11),
+(1007,'rifkin','barcelona',15),
+(1003,'axerold','newyork',10);
+select * from salespeople;
+create table customers(
+cnum int,cname varchar(255),
+city varchar(255) not null,
+snum int,
+primary key(cnum),
+foreign key(snum) references salespeople(snum)
+);
+insert into customers
+values(2001,'hoffman','london',1001),
+(2002,'giovanni','rome',1003),
+(2003,'liu','sanjose',1002),
+(2004,'grass','berlin',1002),
+(2006,'clemens','london',1001),
+(2008,'cisneros','sanjose',1007),
+(2007,'pereira','rome',1004);
+select * from customers;
+select * from salespeople;
+create table orders(
+onum int,
+amt float,
+odate date,
+cnum int,
+snum int,
+primary key(onum),
+foreign key(cnum) references customers(cnum),
+foreign key(snum) references salespeople(snum)
+);
+insert into orders
+values(3001,18.69,'1990-10-03',2008,1007);
+select * from orders;
+insert into orders
+values(3003,767.19,'1990-10-03',2001,1001);
+insert into orders
+values(3002,1900.10,'1990-10-03',2007,1004),
+(3005,5160.45,'1990-10-03',2003,1002),
+(3006,1098.16,'1990-10-03',2008,1007),
+(3009,1713.23,'1990-10-04',2002,1003),
+(3007,75.75,'1990-10-04',2004,1002),
+(3008,4273.00,'1990-10-05',2006,1001),
+(3010,1309.95,'1990-10-06',2004,1002),
+(3011,9891.88,'1990-10-06',2006,1001);
+select * from orders;
+select count(*) from salespeople
+where sname like 'a%';
+select snum from orders
+where amt>2000;
+select count(*) from salespeople
+where city='newyork';
+select count(*) from salespeople
+where city in('london','paris');
+select distinct snum,count(onum) from orders
+group by snum;
+select distinct snum,odate from orders
